@@ -20,7 +20,7 @@ export default function Register() {
   const handleSubmit = form.onSubmit(async () => {
     console.log(form.values);
     try {
-      const res = await post("/api/person/create", form.values);
+      const res = await axios.post("http://localhost:3001/person/create", form.values);
 
       if (res.status === 200 || res.status === 201) {
         console.log("success");

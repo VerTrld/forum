@@ -8,14 +8,20 @@ import {
   IconThumbUp,
   IconUser,
 } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
+import { Router } from "next/router";
 
 interface IPostCard {
   title: string;
   content: string;
   person: string;
+  name:string;
+  commentClick?: ()=> void
 }
 
-const PostCard = ({ person, title, content }: IPostCard) => {
+const PostCard = ({name, person, title, content, commentClick }: IPostCard) => {
+
+  const router = useRouter()
   return (
     <>
       <Paper
@@ -34,7 +40,7 @@ const PostCard = ({ person, title, content }: IPostCard) => {
               <Flex align={"center"} gap={2}>
                 <IconUser size={12} color="#868E96" />
                 <Text fz={"10px"} c="dimmed">
-                  Admin
+                  {name}
                 </Text>
               </Flex>
               <IconPointFilled size={10} color="#868E96" />
@@ -82,6 +88,7 @@ const PostCard = ({ person, title, content }: IPostCard) => {
             align={"center"}
             style={{ border: "2px solid black" }}
             gap={15}
+            onClick={commentClick }
           >
             <IconMessageCircle stroke={1.5} size={15} />
             <Text fz={"12px"}>5 comments</Text>

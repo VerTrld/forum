@@ -1,17 +1,17 @@
 "use client";
 import IPostSchema, { PostSchema } from "@/schema/PostSchema";
-import { Button, Flex, Text, TextInput, Title } from "@mantine/core";
+import { Button, Flex, Text, Textarea, TextInput, Title } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import PostCard from "@/components/PostCard/PostCard";
-import { useSession } from "next-auth/react";
-import { signOut } from "@/lib/auth";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Home() {
   const searchParams = useSearchParams();
   const personId = searchParams.get("personId"); // Get personId from query params\
+   const router = useRouter()
 
   const session = useSession()
 
@@ -19,13 +19,13 @@ export default function Home() {
     queryKey: ["posts"],
     queryFn: async () => {
       const { data } = await axios.get<IPost[]>(
-        `${process.env.NEXT_PUBLIC_API_URL}/posts/all`
+        `${process.env.NEXT_PUBLIC_API_URL}/posts/owner/${session.data?.user?.id}`
       );
       return data;
     },
   });
 
-  console.log({ api: process.env.NEXT_PUBLIC_API_URL });
+  console.log({ id: session.data?.user?.id });
   // Initialize form with dynamic personId if available
   const form = useForm<IPostSchema>({
     validate: yupResolver(PostSchema),
@@ -36,7 +36,7 @@ export default function Home() {
     },
   });
 
-  console.log({ss:session});
+  console.log({ss:session.data?.user?.id});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,10 +44,13 @@ export default function Home() {
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/posts/create`,
-        form.values
+        {...form.values,
+          personId: session.data?.user?.id
+        }
       );
       if (res.status === 200 || res.status === 201) {
         console.log("Post created successfully");
+        form.reset();
         refetch();
       }
     } catch (error) {
@@ -58,6 +61,13 @@ export default function Home() {
   console.log(postData);
 
   return (
+<>
+<Button onClick={() => signOut({ callbackUrl: '/login' })}>
+  Sign Out
+</Button>
+
+
+    
     <form onSubmit={handleSubmit}>
       <Flex
         direction={"column"}
@@ -67,9 +77,7 @@ export default function Home() {
         bg={"#ffffff"}
         style={{ border: "2px solid red" }}
       >
-        <Button onClick={()=> {
-            signOut({ redirect: true});
-        }}>Signout</Button>
+
         <Flex
           direction={"column"}
           gap={20}
@@ -90,8 +98,9 @@ export default function Home() {
               placeholder="Post Title"
               {...form.getInputProps("title")}
             />
-            <TextInput
-              placeholder="What's on your mind?"
+
+             <Textarea
+             placeholder="What's on your mind?"
               {...form.getInputProps("content")}
             />
             <Button type="submit">Post</Button>
@@ -104,6 +113,12 @@ export default function Home() {
                   title={v?.title || ""}
                   content={v?.content || ""}
                   person={v.name}
+                  name={(session.data?.user?.name)?.toUpperCase() || '' }
+                  commentClick={()=> {
+                    router.push(`/thread?id=${v.id}`);
+
+                    
+                  }}
                 />
               </Flex>
             );
@@ -111,5 +126,6 @@ export default function Home() {
         </Flex>
       </Flex>
     </form>
+    </>
   );
 }

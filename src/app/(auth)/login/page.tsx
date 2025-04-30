@@ -48,7 +48,6 @@ export default function Login() {
       align="center"
       justify="center"
     >
-      <Button onClick={()=> signOut()}>SignOut</Button>
       <form
         onSubmit={handleSubmit}
         style={{ width: "100%", maxWidth: "400px" }}

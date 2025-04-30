@@ -14,13 +14,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     CredentialsProvider({
       credentials: {
-        username: { label: 'Username', type: 'text' },
+        email: { label: 'Username', type: 'text' },
         hash: { label: 'Password', type: 'password' },
       },
     
-      authorize: async ({ username, hash }) => {
+      authorize: async ({ email, hash }) => {
+        console.log('LOGIN INPUTS:', { email, hash });
         try {
-          const fetchRequest = await axios.post('http://localhost:3001/auth/login', { username, hash });
+          const fetchRequest = await axios.post('http://localhost:3001/auth/login', { email, hash });
     
           // Log the response to check for issues
           console.log('Axios Response:', fetchRequest);
