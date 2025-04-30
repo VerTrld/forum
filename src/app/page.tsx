@@ -7,10 +7,13 @@ import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import PostCard from "@/components/PostCard/PostCard";
 import { useSession } from "next-auth/react";
+import { signOut } from "@/lib/auth";
 
 export default function Home() {
   const searchParams = useSearchParams();
   const personId = searchParams.get("personId"); // Get personId from query params\
+
+  const session = useSession()
 
   const { data: postData, refetch } = useQuery({
     queryKey: ["posts"],
@@ -33,7 +36,7 @@ export default function Home() {
     },
   });
 
-  console.log(personId);
+  console.log({ss:session});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,6 +67,9 @@ export default function Home() {
         bg={"#ffffff"}
         style={{ border: "2px solid red" }}
       >
+        <Button onClick={()=> {
+            signOut({ redirect: true});
+        }}>Signout</Button>
         <Flex
           direction={"column"}
           gap={20}

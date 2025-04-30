@@ -9,6 +9,7 @@ import {
 } from "@mantine/core";
 import QueryClientProvider from "@/provider/QueryClientProvider";
 import NextAuthProvider from "@/provider/SessionProvider";
+import { SessionProvider } from "next-auth/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,9 +37,11 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
+      <SessionProvider>
         <QueryClientProvider>
           <MantineProvider>{children}</MantineProvider>
         </QueryClientProvider>
+        </SessionProvider>
       </body>
     </html>
   );
