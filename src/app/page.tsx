@@ -1,131 +1,156 @@
 "use client";
 import IPostSchema, { PostSchema } from "@/schema/PostSchema";
-import { Button, Flex, Text, Textarea, TextInput, Title } from "@mantine/core";
+import {
+  Button,
+  Flex,
+  Modal,
+  Text,
+  Textarea,
+  TextInput,
+  Title,
+} from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import axios from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import PostCard from "@/components/PostCard/PostCard";
 import { signOut, useSession } from "next-auth/react";
+import { IconLogout2, IconPlus } from "@tabler/icons-react";
+import { upperFirst, useDisclosure } from "@mantine/hooks";
+import { useEffect } from "react";
 
 export default function Home() {
-  const searchParams = useSearchParams();
-  const personId = searchParams.get("personId"); // Get personId from query params\
-   const router = useRouter()
+  const router = useRouter();
+  const [opened, { open, close }] = useDisclosure(false);
 
-  const session = useSession()
+  const session = useSession();
 
   const { data: postData, refetch } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
       const { data } = await axios.get<IPost[]>(
-        `${process.env.NEXT_PUBLIC_API_URL}/posts/owner/${session.data?.user?.id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/posts/all`
+        // `${process.env.NEXT_PUBLIC_API_URL}/posts/owner/${session.data?.user?.id}`
       );
+
       return data;
     },
+
+    enabled: !!session.data?.user?.id,
   });
 
-  console.log({ id: session.data?.user?.id });
+  console.log(postData);
+
   // Initialize form with dynamic personId if available
   const form = useForm<IPostSchema>({
     validate: yupResolver(PostSchema),
     initialValues: {
       title: "",
       content: "",
-      personId: personId || "", // Set personId from query params
+      personId: "",
     },
   });
 
-  console.log({ss:session.data?.user?.id});
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = form.onSubmit(async () => {
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/posts/create`,
-        {...form.values,
-          personId: session.data?.user?.id
-        }
+        form.values
       );
       if (res.status === 200 || res.status === 201) {
         console.log("Post created successfully");
-        form.reset();
         refetch();
+        form.reset();
+        close();
       }
     } catch (error) {
       console.error("Failed to create post:", error);
     }
-  };
+  });
 
-  console.log(postData);
+  useEffect(() => {
+    form.setFieldValue("personId", session.data?.user?.id || "");
+  }, [opened]);
 
   return (
-<>
-<Button onClick={() => signOut({ callbackUrl: '/login' })}>
-  Sign Out
-</Button>
-
-
-    
-    <form onSubmit={handleSubmit}>
-      <Flex
-        direction={"column"}
-        align={"center"}
-        h={"100vh"}
-        w={"100%"}
-        bg={"#ffffff"}
-        style={{ border: "2px solid red" }}
+    <>
+      <Modal
+        opened={opened}
+        size={500}
+        onClose={close}
+        title="Create New Thread"
       >
-
-        <Flex
-          direction={"column"}
-          gap={20}
-          w={"50%"}
-          flex={1}
-          // style={{ border: "2px solid red" }}
-        >
-          <Title>My Forum</Title>
-          <Text>Share your thoughts and connect with others</Text>
-          <Flex
-            direction={"column"}
-            gap={20}
-            flex={1}
-            p={20}
-            style={{ border: "2px solid red" }}
-          >
+        {/* Modal content */}
+        <form onSubmit={handleSubmit}>
+          <Flex direction={"column"} gap={20} flex={1} p={10}>
             <TextInput
               placeholder="Post Title"
               {...form.getInputProps("title")}
             />
 
-             <Textarea
-             placeholder="What's on your mind?"
+            <Textarea
+              placeholder="What's on your mind?"
               {...form.getInputProps("content")}
             />
             <Button type="submit">Post</Button>
           </Flex>
+        </form>
+      </Modal>
+      <Flex
+        direction={"column"}
+        // align={"center"}
+        h={"100vh"}
+        w={"100%"}
+        bg={"#ffffff"}
+      >
+        <Flex
+          direction={"column"}
+          gap={20}
+          w={"100%"}
+          h={"100%"}
+          flex={1}
+          style={{ overflowY: "auto" }}
+        >
+          <Flex>
+            <Button
+              onClick={() => signOut({ callbackUrl: "/login" })}
+              bg={"gray"}
+            >
+              <IconLogout2 />
+            </Button>
+          </Flex>
+          <Flex
+            direction={"row"}
+            // flex={1}
+            // align={"center"}
+            justify={"space-between"}
+          >
+            <Title>Forum Discussions</Title>
 
-          {postData?.map((v, i) => {
-            return (
-              <Flex direction={"column"} key={i}>
+            <Button onClick={open} bg={"black"} w={150} radius={"md"}>
+              <IconPlus size={20} />
+              <Text style={{ whiteSpace: "nowrap" }}> New Thread</Text>
+            </Button>
+          </Flex>
+
+          <Flex direction={"column"} flex={1} gap={30} p={10}>
+            {postData?.map((post, index) => (
+              <div key={index}>
                 <PostCard
-                  title={v?.title || ""}
-                  content={v?.content || ""}
-                  person={v.name}
-                  name={(session.data?.user?.name)?.toUpperCase() || '' }
-                  commentClick={()=> {
-                    router.push(`/thread?id=${v.id}`);
-
-                    
+                  date={post.createdAt}
+                  title={post.title || ""}
+                  content={post.content || ""}
+                  // person={post.owner?.name || "Unknown"} // the post's author
+                  name={upperFirst(post.owner?.name) || "Unknown"} // current user
+                  commentClick={() => {
+                    router.push(`/thread?id=${post.id}`);
                   }}
                 />
-              </Flex>
-            );
-          })}
+              </div>
+            ))}
+          </Flex>
         </Flex>
       </Flex>
-    </form>
     </>
   );
 }

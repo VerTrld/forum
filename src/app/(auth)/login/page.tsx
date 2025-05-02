@@ -5,7 +5,6 @@ import { useForm, yupResolver } from "@mantine/form";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { signOut } from "@/lib/auth";
 
 export default function Login() {
   const router = useRouter();
@@ -21,13 +20,13 @@ export default function Login() {
 
   const handleSubmit = form.onSubmit(async () => {
     setError(""); // Clear any previous errors
-  
+
     // Send the form data including the hashed password
-    const res = await signIn("credentials", {
+    const res = (await signIn("credentials", {
       email: form.values.email,
       hash: form.values.hash, // Send the hashed password
       redirect: false,
-    }) as { error?: string } | undefined;
+    })) as { error?: string } | undefined;
 
     if (res && res.error) {
       setError("Login failed. Please check your credentials.");
@@ -35,10 +34,7 @@ export default function Login() {
     } else {
       router.push("/"); // Redirect to the homepage after a successful login
     }
-  
-   
   });
-  
 
   return (
     <Flex
