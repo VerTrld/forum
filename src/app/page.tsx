@@ -2,6 +2,7 @@
 import IPostSchema, { PostSchema } from "@/schema/PostSchema";
 import {
   Button,
+  Divider,
   Flex,
   Modal,
   Text,
@@ -18,6 +19,9 @@ import { signOut, useSession } from "next-auth/react";
 import { IconLogout2, IconPlus } from "@tabler/icons-react";
 import { upperFirst, useDisclosure } from "@mantine/hooks";
 import { useEffect } from "react";
+import Nav from "@/components/Nav/Nav";
+import { orderBy } from "lodash";
+import SideNav from "@/components/SideNav/SideNav";
 
 export default function Home() {
   const router = useRouter();
@@ -27,13 +31,14 @@ export default function Home() {
 
   const { data: postData, refetch } = useQuery({
     queryKey: ["posts"],
+
     queryFn: async () => {
       const { data } = await axios.get<IPost[]>(
         `${process.env.NEXT_PUBLIC_API_URL}/posts/all`
         // `${process.env.NEXT_PUBLIC_API_URL}/posts/owner/${session.data?.user?.id}`
       );
 
-      return data;
+      return orderBy(data, ["createdAt"], ["desc"]);
     },
 
     enabled: !!session.data?.user?.id,
@@ -92,46 +97,30 @@ export default function Home() {
               placeholder="What's on your mind?"
               {...form.getInputProps("content")}
             />
-            <Button type="submit">Post</Button>
+            <Button type="submit" color="#020817">
+              Post
+            </Button>
           </Flex>
         </form>
       </Modal>
-      <Flex
-        direction={"column"}
-        // align={"center"}
-        h={"100vh"}
-        w={"100%"}
-        bg={"#ffffff"}
-      >
+      <Flex direction={"column"} h={"100vh"} w={"100%"} bg={"#ffffff"}>
         <Flex
           direction={"column"}
-          gap={20}
           w={"100%"}
           h={"100%"}
           flex={1}
-          style={{ overflowY: "auto" }}
+          style={{ overflow: "auto" }}
         >
-          <Flex>
-            <Button
-              onClick={() => signOut({ callbackUrl: "/login" })}
-              bg={"gray"}
-            >
-              <IconLogout2 />
-            </Button>
-          </Flex>
-          <Flex
-            direction={"row"}
-            // flex={1}
-            // align={"center"}
-            justify={"space-between"}
-          >
-            <Title>Forum Discussions</Title>
-
-            <Button onClick={open} bg={"black"} w={150} radius={"md"}>
-              <IconPlus size={20} />
-              <Text style={{ whiteSpace: "nowrap" }}> New Thread</Text>
-            </Button>
-          </Flex>
+          <Nav
+            open={open}
+            person={session.data?.user?.name || ""}
+            onClick={() => {
+              signOut({ callbackUrl: "/login" });
+            }}
+            profileClick={() => {
+              router.push(`/profile?id=${session.data?.user?.id}`);
+            }}
+          />
 
           <Flex direction={"column"} flex={1} gap={30} p={10}>
             {postData?.map((post, index) => (
@@ -145,6 +134,7 @@ export default function Home() {
                   commentClick={() => {
                     router.push(`/thread?id=${post.id}`);
                   }}
+                  commentCount={post._count?.comments}
                 />
               </div>
             ))}

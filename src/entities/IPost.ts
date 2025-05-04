@@ -3,4 +3,7 @@ interface IPost extends IDefault {
   content: string;
   name: string;
   owner: IPerson;
+  _count?: {
+    comments: string;
+  };
 }

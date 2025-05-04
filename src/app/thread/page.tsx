@@ -46,6 +46,8 @@ function ThreadContent() {
 
   const session = useSession();
 
+  console.log(view);
+
   return (
     <Flex direction={"column"} w={"100%"} h={"100vh"} gap={20}>
       <Flex>
@@ -65,9 +67,10 @@ function ThreadContent() {
               date={view?.createdAt || ""}
               title={view?.title || ""}
               content={view?.content || ""}
-              name={view?.name || ""}
+              name={view?.owner?.name || ""}
               threadView={false}
               commentView={false}
+              lineClampContent={false}
             />
           </Flex>{" "}
         </div>
@@ -81,6 +84,7 @@ function ThreadContent() {
               />
               <Flex>
                 <Button
+                  bg={"#020817"}
                   onClick={async () => {
                     try {
                       const res = await axios.post(

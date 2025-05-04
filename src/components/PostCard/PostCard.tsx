@@ -7,6 +7,7 @@ import {
   IconPointFilled,
   IconThumbDown,
   IconThumbUp,
+  IconTrash,
   IconUser,
 } from "@tabler/icons-react";
 
@@ -16,16 +17,21 @@ interface IPostCard {
   // person: string;
   name: string;
   commentView?: boolean;
+  commentCount?: string;
   threadView?: boolean;
+  lineClampContent?: boolean;
   date: string;
   commentClick?: () => void;
+  deleteClick?: () => void;
 }
 
 const PostCard = ({
   name,
   // person,
   commentView = true,
+  commentCount,
   threadView = true,
+  lineClampContent = true,
   title,
   content,
   date,
@@ -70,7 +76,12 @@ const PostCard = ({
             </Flex>
           </div>
 
-          <Text c="dimmed" size="sm" lineClamp={3} mb="md">
+          <Text
+            c="dimmed"
+            size="sm"
+            lineClamp={lineClampContent ? 3 : 0}
+            mb="md"
+          >
             {content}
           </Text>
         </Flex>
@@ -87,7 +98,7 @@ const PostCard = ({
             {commentView && (
               <Flex align="center" gap={5}>
                 <IconMessageCircle stroke={1.5} size={16} />
-                <Text fz="xs">{"2"} comments</Text>
+                <Text fz="xs">{commentCount} comments</Text>
               </Flex>
             )}
 
@@ -107,6 +118,7 @@ const PostCard = ({
             </Button>
           )}
         </Flex>
+        <IconTrash />
       </Paper>
     </>
   );
