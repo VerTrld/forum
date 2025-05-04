@@ -7,7 +7,6 @@ import {
   IconPointFilled,
   IconThumbDown,
   IconThumbUp,
-  IconTrash,
   IconUser,
 } from "@tabler/icons-react";
 
@@ -22,7 +21,6 @@ interface IPostCard {
   lineClampContent?: boolean;
   date: string;
   commentClick?: () => void;
-  deleteClick?: () => void;
 }
 
 const PostCard = ({
@@ -118,7 +116,6 @@ const PostCard = ({
             </Button>
           )}
         </Flex>
-        <IconTrash />
       </Paper>
     </>
   );
