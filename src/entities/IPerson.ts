@@ -1,5 +1,4 @@
-interface IPerson {
+interface IPerson extends IDefault {
   name: string;
   email: string;
-  hash?: string;
 }

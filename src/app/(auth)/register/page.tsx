@@ -5,7 +5,6 @@ import { useForm, yupResolver } from "@mantine/form";
 import React from "react";
 
 import axios from "axios";
-import { post } from "@/lib/api";
 
 export default function Register() {
   const form = useForm<IPersonShcema>({
@@ -20,12 +19,15 @@ export default function Register() {
   const handleSubmit = form.onSubmit(async () => {
     console.log(form.values);
     try {
-      const res = await axios.post("http://localhost:3001/person/create", form.values);
+      const res = await axios.post(
+        "http://localhost:3001/person/create",
+        form.values
+      );
 
       if (res.status === 200 || res.status === 201) {
         console.log("success");
       }
-    } catch (error) {}
+    } catch {}
   });
   return (
     <Flex direction={"column"} h={"100vh"} w={"100%"}>
