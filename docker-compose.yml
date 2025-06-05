@@ -4,5 +4,5 @@ services:
     build:
       context: https://github.com/VerTrld/forum.git
     ports:
-      - "3000:3000"
+      - "3001:3001"
     restart: always
