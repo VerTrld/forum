@@ -1,21 +1,21 @@
-# Dockerfile
+# 1. Use official Node.js image
 FROM node:18-alpine
 
-# Set working directory
+# 2. Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
+# 3. Install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy source files
+# 4. Copy all files
 COPY . .
 
-# Build the app
+# 5. Build the app
 RUN npm run build
 
-# Expose the port the app runs on
+# 6. Expose the default Next.js port
 EXPOSE 3000
 
-# Start the app
-CMD ["npm", "run", "start:prod"]
+# 7. Start Next.js in production mode
+CMD ["npm", "start"]
