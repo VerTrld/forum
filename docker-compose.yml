@@ -4,8 +4,8 @@ services:
     build:
       context: https://github.com/VerTrld/forum.git
       args:
-        NEXT_PUBLIC_API_URL: http://192.168.100.6:3001
-        AUTH_URL: http://192.168.100.6:3001
+        NEXT_PUBLIC_API_URL: http://139.59.126.55:3001
+        AUTH_URL: http://139.59.126.55:3001
     ports:
       - "3000:3000"
     restart: always

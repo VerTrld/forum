@@ -51,7 +51,7 @@ function ProfileContent() {
               <PostCard
                 date={v.createdAt}
                 key={index}
-                title=""
+                title={v.title}
                 content={v.content}
                 name={v.owner.name}
                 commentView={false}
