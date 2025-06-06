@@ -1,21 +1,24 @@
-# 1. Use official Node.js image
 FROM node:18-alpine
 
-# 2. Set working directory
 WORKDIR /app
 
-# 3. Install dependencies
+ARG NEXT_PUBLIC_API_URL
+ARG AUTH_URL
+
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV AUTH_URL=$AUTH_URL
+
 COPY package*.json ./
 RUN npm install
 
-# 4. Copy all files
 COPY . .
 
-# 5. Build the app
+RUN echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" > .env.local && \
+    echo "AUTH_URL=$AUTH_URL" >> .env.local
+
 RUN npm run build
 
-# 6. Expose the default Next.js port
 EXPOSE 3000
 
-# 7. Start Next.js in production mode
 CMD ["npm", "start"]
+
