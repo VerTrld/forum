@@ -1,32 +1,33 @@
-# Use Node.js Alpine base image
+# Use lightweight Node.js Alpine base image
 FROM node:18-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Set environment variables (build-time and runtime)
+# Declare build arguments
 ARG NEXT_PUBLIC_API_URL
-ARG AUTH_URL
+ARG NEXT_PUBLIC_AUTH_URL
 
+# Set environment variables for runtime (and build time)
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
-ENV AUTH_URL=$AUTH_URL
+ENV NEXT_PUBLIC_AUTH_URL=$NEXT_PUBLIC_AUTH_URL
 
-# Copy dependencies and install
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the app
+# Copy application source code
 COPY . .
 
-# Optional: log env vars to confirm they're set (debug)
+# Optional: print env vars for debugging during build
 RUN echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" && \
-    echo "AUTH_URL=$AUTH_URL"
+    echo "NEXT_PUBLIC_AUTH_URL=$NEXT_PUBLIC_AUTH_URL"
 
-# Build the Next.js app (NEXT_PUBLIC_* vars are baked here)
+# Build the Next.js app
 RUN npm run build
 
-# Expose the port Next.js will run on
+# Expose port 3000
 EXPOSE 3000
 
-# Start the Next.js app
+# Start the app
 CMD ["npm", "start"]

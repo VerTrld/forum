@@ -21,7 +21,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         console.log("LOGIN INPUTS:", { email, hash });
         try {
           const fetchRequest = await axios.post(
-            `${process.env.AUTH_URL}/auth/login`,
+            `${process.env.NEXT_PUBLIC_AUTH_URL}/auth/login`,
             { email, hash }
           );
 
