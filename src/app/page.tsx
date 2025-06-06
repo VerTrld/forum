@@ -115,7 +115,9 @@ export default function Home() {
             open={open}
             person={session.data?.user?.name || ""}
             onClick={() => {
-              signOut({ callbackUrl: "/login" });
+              signOut({
+                callbackUrl: `${process.env.NEXT_PUBLIC_API_URL}/login`,
+              });
             }}
             profileClick={() => {
               router.push(`/profile?id=${session.data?.user?.id}`);

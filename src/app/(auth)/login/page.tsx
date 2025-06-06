@@ -1,6 +1,6 @@
 "use client";
 import IPersonShcema, { PersonSchema } from "@/schema/PersonSchema";
-import { Button, Flex, TextInput } from "@mantine/core";
+import { Button, Flex, Text, TextInput } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -62,9 +62,12 @@ export default function Login() {
         {error && (
           <div style={{ color: "red", marginBottom: "1rem" }}>{error}</div>
         )}
-        <Button type="submit" fullWidth>
+        <Button type="submit" fullWidth mb={"md"}>
           Login
         </Button>
+        <Text onClick={() => router.push("/register")} c={"violet"}>
+          register
+        </Text>
       </form>
     </Flex>
   );
