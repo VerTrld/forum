@@ -21,7 +21,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         console.log("LOGIN INPUTS:", { email, hash });
         try {
           const fetchRequest = await axios.post(
-            "http://localhost:3001/auth/login",
+            `${process.env.AUTH_URL}/auth/login`,
             { email, hash }
           );
 

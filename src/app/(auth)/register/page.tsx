@@ -20,7 +20,7 @@ export default function Register() {
     console.log(form.values);
     try {
       const res = await axios.post(
-        "http://localhost:3001/person/create",
+        `${process.env.AUTH_URL}/person/create`,
         form.values
       );
 
