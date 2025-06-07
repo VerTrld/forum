@@ -116,7 +116,7 @@ export default function Home() {
             person={session.data?.user?.name || ""}
             onClick={() => {
               signOut({
-                callbackUrl: `${process.env.NEXT_PUBLIC_API_URL}/login`,
+                callbackUrl: `${process.env.NEXT_PUBLIC_AUTH_URL}/login`,
               });
             }}
             profileClick={() => {
