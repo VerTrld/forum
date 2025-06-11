@@ -4,7 +4,7 @@ services:
     build:
       context: https://github.com/VerTrld/forum.git
       args:
-        NEXT_PUBLIC_API_URL: http://139.59.126.55:3001
+        NEXT_PUBLIC_API_URL: https://forum-backend.univerapp.site
         NEXT_PUBLIC_AUTH_URL: http://139.59.126.55:3000
     # ports:
     #   - "3000:3000"
