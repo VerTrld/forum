@@ -4,7 +4,7 @@ import { Button, Flex, Text, TextInput } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { getCsrfToken, signIn } from "next-auth/react";
 
 export default function Login() {
   const router = useRouter();
@@ -17,22 +17,20 @@ export default function Login() {
       hash: "",
     },
   });
-
   const handleSubmit = form.onSubmit(async () => {
     setError(""); // Clear any previous errors
 
-    // Send the form data including the hashed password
-    const res = (await signIn("credentials", {
+    const res = await signIn("credentials", {
       email: form.values.email,
-      hash: form.values.hash, // Send the hashed password
+      hash: form.values.hash,
       redirect: false,
-    })) as { error?: string } | undefined;
+    });
 
-    if (res && res.error) {
+    if (res?.error) {
       setError("Login failed. Please check your credentials.");
       console.error("Login failed:", res.error);
     } else {
-      router.push("/"); // Redirect to the homepage after a successful login
+      router.push("/"); // Redirect after login
     }
   });
 
