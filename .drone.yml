@@ -1,9 +1,18 @@
 kind: pipeline
-name: default
+type: docker
+name: Build and Push Docker Image
 
 steps:
-  - name: test
-    image: node:18
-    commands:
-      - npm install
-      - npm test
+  - name: Build Docker Image
+    image: plugins/docker
+    settings:
+      repo: VerTrld/my-app  # Docker Hub repo
+      registry: docker.io   # Docker Hub registry
+      dockerfile: Dockerfile  # Make sure this is correct, relative to the repo's root
+      tags: latest  # You can change this to a specific tag or use a dynamic one
+
+trigger:
+  event:
+    - push    # Trigger the build when there is a push to GitHub
+  branch:
+    - master    # Trigger only on pushes to the 'main' branch
