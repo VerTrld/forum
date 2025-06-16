@@ -6,12 +6,12 @@ steps:
   - name: Build Docker Image
     image: plugins/docker
     settings:
-    repo: 172.26.113.89:5000/my-app  # Registry: use IP address of your registry
-    registry: 172.26.113.89:5000      # Same as above for remote registry
-    dockerfile: Dockerfile            # Path to Dockerfile
-    tags: latest                      # Tag (optional, e.g., 'latest')
-
+      repo: 172.26.113.89:5000/my-app  # Registry URL (replace with your local registry IP)
+      registry: 172.26.113.89:5000     # Same as above for remote registry
+      dockerfile: Dockerfile           # Path to Dockerfile
+      tags:
+        - latest                      # Tag (optional, e.g., 'latest')
 
 trigger:
   branch:
-    - master # O kung anong branch ang gusto mong mag-trigger ng build
+    - master  # Specify the branch to trigger the build
