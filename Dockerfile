@@ -1,14 +1,20 @@
-# Stage 1: Build the Next.js app
-FROM node:18-alpine AS builder
-WORKDIR /app
-COPY . .
-RUN npm install
-RUN npm run build
+# Base image na gagamitin
+FROM node:16
 
-# Stage 2: Production image
-FROM node:18-alpine
+# Set working directory inside container
 WORKDIR /app
-COPY --from=builder /app ./
-RUN npm install --production
-EXPOSE 3000
+
+# Copy package.json at package-lock.json papuntang container
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy ang lahat ng files from local to container
+COPY . .
+
+# Expose the port na gagamitin ng app (depende sa app mo)
+EXPOSE 3001
+
+# Command para patakbuhin ang app
 CMD ["npm", "start"]

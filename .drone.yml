@@ -1,18 +1,16 @@
 kind: pipeline
 type: docker
-name: Build and Push Docker Image
+name: Build and Push to Local Registry
 
 steps:
   - name: Build Docker Image
     image: plugins/docker
     settings:
-      repo: VerTrld/my-app  # Docker Hub repo
-      registry: docker.io   # Docker Hub registry
-      dockerfile: Dockerfile  # Make sure this is correct, relative to the repo's root
-      tags: latest  # You can change this to a specific tag or use a dynamic one
+      repo: localhost:5000/my-app # Registry mo (local registry)
+      registry: localhost:5000 # Same as above
+      dockerfile: Dockerfile # Path to Dockerfile
+      tags: latest # Tag (optional, e.g., 'latest')
 
 trigger:
-  event:
-    - push    # Trigger the build when there is a push to GitHub
   branch:
-    - master    # Trigger only on pushes to the 'main' branch
+    - master # O kung anong branch ang gusto mong mag-trigger ng build
