@@ -1,20 +1,22 @@
-# Base image na gagamitin
-FROM node:18
-
-# Set working directory inside container
+# 1. Build Stage
+FROM node:18 AS builder
 WORKDIR /app
 
-# Copy package.json at package-lock.json papuntang container
-COPY package*.json ./
-
-# Install dependencies
+COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy ang lahat ng files from local to container
 COPY . .
+RUN npm run build
 
-# Expose the port na gagamitin ng app (depende sa app mo)
-EXPOSE 3001
+# 2. Production Stage
+FROM node:18-alpine
+WORKDIR /app
 
-# Command para patakbuhin ang app
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
+EXPOSE 3000
+
 CMD ["npm", "start"]
