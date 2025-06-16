@@ -7,7 +7,7 @@ steps:
     image: plugins/docker
     settings:
       repo: 172.26.113.89:5000/my-app  # Registry URL (replace with your local registry IP)
-      registry: 172.26.113.89:5000     # Same as above for remote registry
+      registry: http://172.26.113.89:5000   # Same as above for remote registry
       dockerfile: Dockerfile           # Path to Dockerfile
       tags:
         - latest                      # Tag (optional, e.g., 'latest')
