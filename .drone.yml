@@ -1,14 +1,14 @@
 kind: pipeline
 type: docker
-name: Build and Push
+name: Build and Push to VPS
 
 steps:
-  - name: Build Docker Image
+  - name: Build and Push Image to VPS Registry
     image: plugins/docker
     settings:
-      repo: 192.168.100.6:5000/my-app
-      registry: http://192.168.100.6:5000
-      insecure: true # ✅ Skips TLS check
+      repo: 128.199.250.178:5000/my-app
+      registry: 128.199.250.178:5000
+      insecure: true # ✅ Needed for HTTP registry
       dockerfile: Dockerfile
       tags:
         - latest
