@@ -11,4 +11,3 @@ steps:
     image: node:18
     commands:
       - npm test
-# 
