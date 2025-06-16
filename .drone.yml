@@ -1,17 +1,18 @@
 kind: pipeline
 type: docker
-name: Build and Push to Local Registry
+name: Build and Push
 
 steps:
   - name: Build Docker Image
     image: plugins/docker
     settings:
-      repo: 172.26.113.89:5000/my-app  # Registry URL (replace with your local registry IP)
-      registry: http://172.26.113.89:5000   # Same as above for remote registry
-      dockerfile: Dockerfile           # Path to Dockerfile
+      repo: 192.168.100.6:5000/my-app
+      registry: http://192.168.100.6:5000
+      insecure: true # ✅ Skips TLS check
+      dockerfile: Dockerfile
       tags:
-        - latest                      # Tag (optional, e.g., 'latest')
+        - latest
 
 trigger:
   branch:
-    - master  # Specify the branch to trigger the build
+    - master
