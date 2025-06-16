@@ -1,5 +1,5 @@
 # Base image na gagamitin
-FROM node:16
+FROM node:18
 
 # Set working directory inside container
 WORKDIR /app
