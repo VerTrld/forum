@@ -6,10 +6,11 @@ steps:
   - name: Build Docker Image
     image: plugins/docker
     settings:
-      repo: localhost:5000/my-app # Registry mo (local registry)
-      registry: localhost:5000 # Same as above
-      dockerfile: Dockerfile # Path to Dockerfile
-      tags: latest # Tag (optional, e.g., 'latest')
+    repo: 172.26.113.89:5000/my-app  # Registry: use IP address of your registry
+    registry: 172.26.113.89:5000      # Same as above for remote registry
+    dockerfile: Dockerfile            # Path to Dockerfile
+    tags: latest                      # Tag (optional, e.g., 'latest')
+
 
 trigger:
   branch:
