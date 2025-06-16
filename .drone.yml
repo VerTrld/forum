@@ -2,8 +2,12 @@ kind: pipeline
 name: default
 
 steps:
-  - name: test
-    image: node:18 
+  - name: install dependencies
+    image: node:18
     commands:
       - npm install
+
+  - name: run tests
+    image: node:18
+    commands:
       - npm test
