@@ -6,13 +6,11 @@ steps:
   - name: build
     image: plugins/docker
     settings:
-      # tags: ${DRONE_TAG}
+      tags: ${DRONE_TAG}
       dockerfile: Dockerfile
-      repo: 128.199.250.178:5000/forum-app-registry
+      repo: 128.199.250.178:5000/forum-app
       registry: 128.199.250.178:5000
-      insecure: true 
-      tags:
-       - latest
+      insecure: true
 
 trigger:
   branch:
