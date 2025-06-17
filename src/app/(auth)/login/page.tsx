@@ -42,7 +42,6 @@ export default function Login() {
       align="center"
       justify="center"
     >
-      <Text>HELLO THIS IS UPDATE LAYOUT</Text>
       <form
         onSubmit={handleSubmit}
         style={{ width: "100%", maxWidth: "400px" }}
