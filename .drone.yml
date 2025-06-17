@@ -8,7 +8,7 @@ steps:
     settings:
       repo: 128.199.250.178:5000/my-app
       registry: 128.199.250.178:5000
-      insecure: true # ✅ Needed for HTTP registry
+      insecure: true 
       dockerfile: Dockerfile
       tags:
         - latest
