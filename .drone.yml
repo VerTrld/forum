@@ -12,7 +12,7 @@ steps:
       registry: 128.199.250.178:5000
       insecure: true 
       tags:
-        -latest
+       - latest
 
 trigger:
   branch:
