@@ -86,6 +86,7 @@ export default function Home() {
         title="Create New Thread"
       >
         {/* Modal content */}
+        <Text>Test Title</Text>
         <form onSubmit={handleSubmit}>
           <Flex direction={"column"} gap={20} flex={1} p={10}>
             <TextInput

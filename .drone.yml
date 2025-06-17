@@ -3,15 +3,14 @@ type: docker
 name: Build and Push to VPS
 
 steps:
-  - name: Build and Push Image to VPS Registry
+  - name: build
     image: plugins/docker
     settings:
-      repo: 128.199.250.178:5000/my-app
+      tags: ${DRONE_TAG}
+      dockerfile: Dockerfile
+      repo: 128.199.250.178:5000/forum-app
       registry: 128.199.250.178:5000
       insecure: true 
-      dockerfile: Dockerfile
-      tags:
-        - latest
 
 trigger:
   branch:
