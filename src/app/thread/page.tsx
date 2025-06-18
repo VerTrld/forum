@@ -4,7 +4,7 @@ import PostCard from "@/components/PostCard/PostCard";
 import ICommentSchema, { CommentSchema } from "@/schema/CommentSchema";
 import { Button, Flex, Text, Textarea, Title } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
-import { IconArrowLeft } from "@tabler/icons-react";
+import { IconArrowLeft, IconChevronLeft } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -49,20 +49,22 @@ function ThreadContent() {
   console.log(view);
 
   return (
-    <Flex direction={"column"} w={"100%"} h={"100vh"} gap={20}>
-      <Flex>
+    <Flex direction={"column"} w={"100%"} h={"100vh"} >
+      <Flex        direction={'row'} p={'5px 10px 5px 10px'} >
         <Button
           variant="outline"
           color="black"
           onClick={() => router.push("/")}
+   
         >
-          <IconArrowLeft color="black" />
-          <Text c={"black"}>Back</Text>
+          {/* <IconArrowLeft color="black" />
+          <Text c={"black"}>Back</Text> */}
+        <IconChevronLeft/>
+
         </Button>
       </Flex>
-      <Flex direction={"column"} flex={1} p={10} style={{ overflowY: "auto" }}>
-        <div>
-          <Flex direction={"column"} flex={1}>
+      <Flex direction={"column"} flex={1} align={'center'} p={10} style={{ overflowY: "auto" }}>
+          <Flex direction={"column"} w={'100%'} maw={'900px'} >
             <PostCard
               date={view?.createdAt || ""}
               title={view?.title || ""}
@@ -72,9 +74,8 @@ function ThreadContent() {
               commentView={false}
               lineClampContent={false}
             />
-          </Flex>{" "}
-        </div>
-        <Flex direction={"column"} p={10}>
+          </Flex>
+        <Flex direction={"column"} p={10} w={'100%'} maw={'900px'} >
           <Flex direction={"column"} gap={30}>
             <Flex direction={"column"} gap={10} justify={"end"}>
               <Title order={3}>Add a Comment</Title>
@@ -82,9 +83,11 @@ function ThreadContent() {
                 placeholder="Write your comment here"
                 {...form.getInputProps("content")}
               />
-              <Flex>
+              <Flex justify={'end'} p={0}>
                 <Button
+               
                   bg={"#020817"}
+                  fz={'12px'}
                   onClick={async () => {
                     try {
                       const res = await axios.post(

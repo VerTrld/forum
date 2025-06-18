@@ -44,7 +44,7 @@ export default function Login() {
     >
       <form
         onSubmit={handleSubmit}
-        style={{ width: "100%", maxWidth: "400px" }}
+        style={{ width: "100%", maxWidth: "400px" , padding:'10px' }}
       >
         <TextInput
           placeholder="Email"

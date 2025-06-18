@@ -39,11 +39,13 @@ const Nav = ({ onClick, open, person, profileClick }: INav) => {
       <Flex
         direction="row"
         gap={10}
-        p={10}
+        // p={10}
         align="center"
-        justify="space-between"
+        justify={'center'}
+        // justify="space-between"
         bg="white"
       >
+        <Flex direction={'row'}  p={'5px 10px 5px 10px'} w={'100%'} maw={'900px'} justify={'space-between'}>
         <Text fw={600} size="xl">
           Forum
         </Text>
@@ -118,6 +120,7 @@ const Nav = ({ onClick, open, person, profileClick }: INav) => {
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
+        </Flex>
         </Flex>
       </Flex>
       <Divider />

@@ -103,28 +103,28 @@ export default function Home() {
           </Flex>
         </form>
       </Modal>
-      <Flex direction={"column"} h={"100vh"} w={"100%"} bg={"#ffffff"}>
-        <Flex
-          direction={"column"}
-          w={"100%"}
-          h={"100%"}
-          flex={1}
-          style={{ overflow: "auto" }}
-        >
-          <Nav
+      <Flex direction={"column"} h={"100vh"} w={"100%"} bg={"#ffffff"} >
+         <Nav
             open={open}
             person={session.data?.user?.name || ""}
             onClick={() => {
-              signOut({
-                callbackUrl: `${process.env.NEXT_PUBLIC_AUTH_URL}/login`,
-              });
+              signOut();
             }}
             profileClick={() => {
               router.push(`/profile?id=${session.data?.user?.id}`);
             }}
           />
+        <Flex
+          direction={"column"}
+          w={"100%"}
+          h={"100%"}
+          flex={1}
+          align={'center'}
+          style={{ overflow: "auto" }}
+        >
+  
 
-          <Flex direction={"column"} flex={1} gap={30} p={10}>
+          <Flex direction={"column"}  w={'100%'} maw={'900px'} gap={30} p={10}>
             {postData?.map((post, index) => (
               <div key={index}>
                 <PostCard
