@@ -108,7 +108,7 @@ export default function Home() {
             open={open}
             person={session.data?.user?.name || ""}
             onClick={() => {
-              signOut();
+              signOut({ callbackUrl: 'http://128.199.250.178:3000/login' });
             }}
             profileClick={() => {
               router.push(`/profile?id=${session.data?.user?.id}`);
