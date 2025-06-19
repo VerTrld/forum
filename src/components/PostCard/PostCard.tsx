@@ -1,6 +1,7 @@
 "use client";
 import { timeAgo } from "@/lib/utils";
 import { Button, Flex, Paper, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import {
   IconClock,
   IconMessageCircle,
@@ -35,6 +36,13 @@ const PostCard = ({
   date,
   commentClick,
 }: IPostCard) => {
+
+
+
+  const [liked, handlers] = useDisclosure(false);
+
+
+
   return (
     <>
       <Paper
@@ -101,7 +109,10 @@ const PostCard = ({
             )}
 
             <Flex align="center" gap={5}>
-              <IconThumbUp stroke={1.5} size={16} />
+              <IconThumbUp stroke={1.5} fill={liked ? 'gray' : 'white'} size={16} onClick={()=> {
+                handlers.toggle()
+                console.log(liked)
+              } }  />
               <Text fz="xs">{"2"}</Text>
             </Flex>
             <Flex align="center" gap={5}>
