@@ -24,7 +24,7 @@ import CommunitiesCard from "@/components/CommunitiesCard/CommunitiesCard";
 import PostCard from "@/components/PostCard/PostCard";
 import DashboardCard from "@/components/DashboardCard/DashboardCard";
 
-export default function Home() {
+export default function Channels() {
   const router = useRouter();
   const [opened, { open, close }] = useDisclosure(false);
   const session = useSession();
@@ -119,43 +119,10 @@ export default function Home() {
           gap={20}
         >
           <Flex direction={"column"} w={"100%"} maw={"900px"}>
-            <Title>Communities</Title>
+            <Title>Web development</Title>
             <Text>Discover and join communities that match your interests</Text>
           </Flex>
 
-          <Flex justify="center" align="center" w="100%" maw="900px" mx="auto">
-            <Grid w="100%" gutter="md">
-              {Array.from({ length: 3 }).map((_, index) => (
-                <Grid.Col
-                  key={index}
-                  span={{ base: 12, sm: 6, lg: 4 }}
-                  style={{ display: "flex", justifyContent: "center" }}
-                >
-                  <DashboardCard />
-                </Grid.Col>
-              ))}
-            </Grid>
-          </Flex>
-
-          {/* Centered Grid Container */}
-          <Flex justify="center" align="center" w="100%" maw="900px" mx="auto">
-            <Grid w="100%" gutter="md">
-              {[...Array(6)].map((_, index) => (
-                <Grid.Col
-                  key={index}
-                  span={{ base: 12, sm: 6, lg: 4 }}
-                  style={{ display: "flex", justifyContent: "center" }}
-                >
-                  <CommunitiesCard
-                    onClick={() => router.push("/communities")}
-                  />
-                </Grid.Col>
-              ))}
-            </Grid>
-          </Flex>
-
-          {/* Uncomment this to show Post Cards */}
-          {/* 
           <Flex direction="column" w="100%" maw="900px" gap={30} p={10}>
             {postData?.map((post, index) => (
               <PostCard
@@ -168,8 +135,7 @@ export default function Home() {
                 commentCount={post._count?.comments}
               />
             ))}
-          </Flex> 
-          */}
+          </Flex>
         </Flex>
       </Flex>
     </>
