@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: Build and Push to VPS
+name: dev 
 
 steps:
   - name: build
@@ -8,8 +8,8 @@ steps:
     settings:
       tags: ${DRONE_TAG}
       dockerfile: Dockerfile
-      registry: 128.199.126.16:5000
-      repo: 128.199.126.16:5000/web-app
+      registry: 172.26.113.89:5000
+      repo: 172.26.113.89:5000/web-app
       insecure: true
 
 trigger:
