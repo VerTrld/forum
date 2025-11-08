@@ -23,7 +23,7 @@ COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NEXT_PUBLIC_API_URL=https://forum-ws.univerapp.site
-ENV NEXT_PUBLIC_AUTH_URL=https://forum.univerapp.site
+ENV NEXTAUTH_URL=https://forum.univerapp.site
 
  
 RUN npm run build
