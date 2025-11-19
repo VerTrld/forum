@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: dev 
+name: dev
 
 steps:
   - name: build
@@ -8,8 +8,8 @@ steps:
     settings:
       tags: ${DRONE_TAG}
       dockerfile: Dockerfile
-      registry: 172.22.154.209:5000
-      repo: 172.22.154.209:5000/web-app
+      registry: 100.98.49.87:5000
+      repo: 100.98.49.87:5000/forum-web
       insecure: true
 
 trigger:
