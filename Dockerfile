@@ -23,7 +23,7 @@ COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NEXT_PUBLIC_API_URL=https://forum-ws.univerapp.site
-ENV NEXTAUTH_URL=https://forum.univerapp.site
+ENV NEXT_PUBLIC_AUTH_URL=https://forum.univerapp.site
 
  
 RUN npm run build
@@ -54,8 +54,8 @@ USER nextjs
  
 EXPOSE 3000
  
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
+# ENV PORT 3000
+# ENV HOSTNAME "0.0.0.0"
  
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
