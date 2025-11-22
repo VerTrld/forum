@@ -21,9 +21,10 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 
-ENV NEXT_TELEMETRY_DISABLED 1
+# Add these in runner stage
+ENV NEXTAUTH_URL=https://forum.univerapp.site
 ENV NEXT_PUBLIC_API_URL=https://forum-ws.univerapp.site
-ENV NEXT_PUBLIC_AUTH_URL=https://forum.univerapp.site
+ENV PORT 3000
 
  
 RUN npm run build
@@ -54,12 +55,8 @@ USER nextjs
  
 EXPOSE 3000
  
-# ENV PORT 3000
 # ENV HOSTNAME "0.0.0.0"
  
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
-# CMD ["node", "server.js"]
-
-CMD ["node", "server.js", "-H", "0.0.0.0"]
-
+CMD ["node", "server.js"]
