@@ -105,7 +105,9 @@ export default function Home() {
           person={session.data?.user?.name || ""}
           onClick={() =>
             signOut({
-              callbackUrl: "https://forum.univerapp.site",
+              callbackUrl:
+                process.env.NEXT_PUBLIC_APP_URL ||
+                "https://forum.univerapp.site",
             })
           }
           profileClick={() =>
