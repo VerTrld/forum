@@ -103,13 +103,7 @@ export default function Home() {
         <Nav
           open={open}
           person={session.data?.user?.name || ""}
-          onClick={() =>
-            signOut({
-              callbackUrl:
-                process.env.NEXT_PUBLIC_APP_URL ||
-                "https://forum.univerapp.site",
-            })
-          }
+          onClick={() => signOut()}
           profileClick={() =>
             router.push(`/profile?id=${session.data?.user?.id}`)
           }
