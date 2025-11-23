@@ -22,8 +22,8 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 
 ENV NEXT_TELEMETRY_DISABLED 1
-ENV NEXT_PUBLIC_API_URL=https://forum-ws.univerapp.site
-ENV NEXTAUTH_URL=https://forum.univerapp.site
+# ENV NEXT_PUBLIC_API_URL=https://forum-ws.univerapp.site
+# ENV NEXTAUTH_URL=https://forum.univerapp.site
 
  
 RUN npm run build
